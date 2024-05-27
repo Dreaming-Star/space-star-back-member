@@ -2,6 +2,7 @@ package com.spacestar.back.global;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 
 @Getter
@@ -13,7 +14,9 @@ public enum ResponseSuccess {
     DUPLICATION_NICKNAME_SUCCESS(200, "닉네임 중복 검증 성공"),
     LOGIN_SUCCESS(200, "로그인 성공"),
     MEMBER_INFO_UPDATE_SUCCESS(200, "회원 정보 수정 성공"),
-    PROFILE_IMAGE_UPDATE_SUCCESS(200,"프로필 사진 수정 성공" );
+    PROFILE_IMAGE_UPDATE_SUCCESS(200,"프로필 사진 수정 성공" ),
+
+    SWIPE_LIST_GET_SUCCESS(HttpStatus.OK.value(), "스와이프 목록 조회 성공");
 
 
     private final int code;

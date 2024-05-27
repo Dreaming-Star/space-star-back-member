@@ -20,7 +20,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom{
     private final JPAQueryFactory query;
 
     @Override
-    public Page<SwipeListResDto> findSwipeLists(Pageable pageable) {
+    public SwipeListResDto findSwipeLists(Pageable pageable) {
 
             List<Long> memberIds = query.select(member.id)
                     .from(member)
@@ -38,7 +38,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom{
                     .isLast(pageable.getOffset() + pageable.getPageSize() >= total)
                     .build();
 
-            return new PageImpl<>(List.of(swipeListResDto));
+            return swipeListResDto;
         }
     }
 

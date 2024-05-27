@@ -5,7 +5,9 @@ import com.spacestar.back.global.ResponseSuccess;
 import com.spacestar.back.member.repository.MemberRepository;
 import com.spacestar.back.swipe.dto.SwipeListResDto;
 import com.spacestar.back.swipe.service.SwipeService;
+import com.spacestar.back.swipe.vo.SwipeListResVo;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +20,14 @@ import org.springframework.data.domain.Pageable;
 public class SwipeController {
 
     private final SwipeService swipeService;
+    private final ModelMapper mapper;
 
     @GetMapping("/list")
-    public ResponseEntity<?> getSwipeList(@RequestHeader("UUID") String uuid,
-                                          @RequestParam(value = "page",defaultValue = "0") Integer page){
+    public ResponseEntity<SwipeListResVo> getSwipeList(@RequestHeader("UUID") String uuid,
+                                          @RequestParam(value = "page", defaultValue = "0") Integer page) {
         int pageSize = 5;
-        Pageable pageable = PageRequest.of(page,pageSize);
-        Page<SwipeListResDto> swipePage = swipeService.getSwipeList(uuid,pageable);
-        return new ResponseEntity<>(ResponseSuccess.SUCCESS, swipePage);
+        Pageable pageable = PageRequest.of(page, pageSize);
+        SwipeListResDto swipePage = swipeService.getSwipeList(uuid, pageable);
+        return new ResponseEntity<>(ResponseSuccess.SUCCESS, mapper.map(swipePage, SwipeListResVo.class));
     }
 }

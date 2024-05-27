@@ -15,7 +15,7 @@ public class SwipeServiceImpl implements SwipeService{
     private final MemberRepository memberRepository;
 
     @Override
-    public Page<SwipeListResDto> getSwipeList(String uuid, Pageable pageable) {
+    public SwipeListResDto getSwipeList(String uuid, Pageable pageable) {
 
         return memberRepository.findSwipeLists(pageable);
 

@@ -17,7 +17,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom{
 
     @Override
     public SwipeListResDto findSwipeLists(Pageable pageable) {
-
+    //todo 잘 맞는 순으로 조회
             List<Long> memberIds = query.select(member.id)
                     .from(member)
                     .offset(pageable.getOffset())

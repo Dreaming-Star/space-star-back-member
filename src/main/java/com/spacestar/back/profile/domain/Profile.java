@@ -50,4 +50,18 @@ public class Profile extends GlobalTime {
         this.mainGameProfile = mainGameProfile;
     }
 
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", introduce='" + introduce + '\'' +
+                ", gamePreferenceId=" + gamePreferenceId +
+                ", mbtiId=" + mbtiId +
+                ", exp=" + exp +
+                ", reportCount=" + reportCount +
+                ", swipe=" + swipe +
+                ", mainGameProfile=" + mainGameProfile +
+                '}';
+    }
 }

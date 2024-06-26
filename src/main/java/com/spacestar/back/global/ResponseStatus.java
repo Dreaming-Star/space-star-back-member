@@ -27,7 +27,12 @@ public enum ResponseStatus {
      * 5000: block
      **/
     ALREADY_BLOCKED(5000, "이미 차단된 사용자입니다."),
-    NOT_EXIST_BLOCK(5001, "차단된 사용자가 아닙니다.");
+    NOT_EXIST_BLOCK(5001, "차단된 사용자가 아닙니다."),
+
+    /**
+     * 6000: friend
+     **/
+    NOT_EXIST_FRIEND_REQUEST(600,"존재하지 않는 요청입니다." );
 
 
 

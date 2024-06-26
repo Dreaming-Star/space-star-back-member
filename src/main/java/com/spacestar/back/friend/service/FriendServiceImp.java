@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static com.spacestar.back.friend.enums.FriendType.*;
@@ -106,34 +107,42 @@ public class FriendServiceImp implements FriendService {
 
         Friend friend = friendRepository.findByFriendUuidAndUuid(friendUuidReqDto.getFriendUuid(), uuid);
 
-        //친구로 상태 변화
-        Friend realFriend = Friend.builder()
-                .id(friend.getId())
-                .friendType(FRIEND)
-                .friendUuid(friend.getFriendUuid())
-                .uuid(friend.getUuid())
-                .build();
+        if (friend == null) {
+            throw new GlobalException(ResponseStatus.NOT_EXIST_FRIEND_REQUEST);
+        }
 
-        friendRepository.save(realFriend);
+        else
+        {
+            //친구로 상태 변화
+            Friend realFriend = Friend.builder()
+                    .id(friend.getId())
+                    .friendType(FRIEND)
+                    .friendUuid(friend.getFriendUuid())
+                    .uuid(friend.getUuid())
+                    .build();
 
-        //상대방
-        Friend friend2 = friendRepository.findByFriendUuidAndUuid(uuid, friendUuidReqDto.getFriendUuid());
+            friendRepository.save(realFriend);
 
-        Friend realFriend2 = Friend.builder()
-                .id(friend2.getId())
-                .friendType(FRIEND)
-                .friendUuid(friend2.getFriendUuid())
-                .uuid(friend2.getUuid())
-                .build();
+            //상대방
+            Friend friend2 = friendRepository.findByFriendUuidAndUuid(uuid, friendUuidReqDto.getFriendUuid());
 
-        friendRepository.save(realFriend2);
+            Friend realFriend2 = Friend.builder()
+                    .id(friend2.getId())
+                    .friendType(FRIEND)
+                    .friendUuid(friend2.getFriendUuid())
+                    .uuid(friend2.getUuid())
+                    .build();
 
-        FriendMessage friendMessage = FriendMessage.builder()
-                .senderUuid(friendUuidReqDto.getFriendUuid())
-                .receiverUuid(uuid)
-                .content("친구 신청이 수락되었습니다.")
-                .build();
-        kafkaTemplate.send(TOPIC, friendMessage);
+            friendRepository.save(realFriend2);
+
+            FriendMessage friendMessage = FriendMessage.builder()
+                    .senderUuid(friendUuidReqDto.getFriendUuid())
+                    .receiverUuid(uuid)
+                    .content("친구 신청이 수락되었습니다.")
+                    .build();
+            kafkaTemplate.send(TOPIC, friendMessage);
+        }
+
 
     }
 
